@@ -35,3 +35,21 @@ npm run build --report
 ```
 
 For detailed explanation on how things work, checkout the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+
+## Work Plan
+
+``` bash
+# 2019-4-8
+构建环境，诸如axios，api，tip，base等内容，以及图片资源。
+
+# 2019-4-9
+完成首页和我的页面的显示效果
+
+# 2019-4-10
+完成帖子详情页内容
+
+# 2019-4-11
+完成删除、修改、上传页内容
+
+# 2019-4-12
+查缺补漏，争取完成前端工作
