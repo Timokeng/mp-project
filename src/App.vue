@@ -11,9 +11,9 @@ export default {
         } else {
           wx.setStorageSync(IS_IPHONEX, false)
         }
-      },
+      }
     })
-  },
+  }
 }
 </script>
 

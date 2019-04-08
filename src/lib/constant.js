@@ -1,0 +1,7 @@
+export const WINDOW_HEIGHT = 'WINDOW_HEIGHT'
+
+export const SELECT_ADDRESS = 'SELECT_ADDRESS'
+
+export const EDIT_ADDRESS = 'EDIT_ADDRESS'
+
+export const IS_IPHONEX = 'IS_IPHONEX'

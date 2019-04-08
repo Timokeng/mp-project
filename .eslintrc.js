@@ -24,7 +24,19 @@ module.exports = {
     // allow async-await
     'generator-star-spacing': 0,
     // allow debugger during development
-    'no-debugger': process.env.NODE_ENV === 'production' ? 2 : 0
+    'no-debugger': process.env.NODE_ENV === 'production' ? 2 : 0,
+    // 添加，分号必须
+    semi: ['error', 'always'],
+    'no-unexpected-multiline': 'off',
+    'space-before-function-paren': ['error', 'never'],
+    // 'quotes': ["error", "double", { "avoidEscape": true }]
+    quotes: [
+      'error',
+      'single',
+      {
+        avoidEscape: true
+      }
+    ]
   },
   globals: {
     App: true,
