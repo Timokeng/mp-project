@@ -1,18 +1,18 @@
 <template>
-  <div>首页</div>
+  <div>发帖</div>
 </template>
 
 <script>
-import api from '@/lib/api.js'
-import tip from '@/lib/tip.js'
-import base from '../../base.js'
+
 
 export default {
-  mixins: [ base ],
-
   data () {
     return {
-      
+      motto: 'Hello miniprograme',
+      userInfo: {
+        nickName: 'mpvue',
+        avatarUrl: 'http://mpvue.com/assets/logo.png'
+      }
     }
   },
 
