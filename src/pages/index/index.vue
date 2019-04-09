@@ -7,7 +7,9 @@
       </div>
     </div>
     <div class="margin-line"></div>
-    <div class="post-list">帖子专区</div>
+    <div class="post-list">
+      <post-box v-for="(item, index) in postList" :key="index" :post="item"></post-box>
+    </div>
   </div>
 </template>
 
@@ -15,6 +17,7 @@
 import api from '@/lib/api.js'
 import tip from '@/lib/tip.js'
 import base from '../../base.js'
+import postBox from '@/components/post-box.vue'
 
 export default {
   mixins: [ base ],
@@ -28,18 +31,27 @@ export default {
   },
 
   components: {
-
+    postBox
   },
 
   methods: {
     async getTopList(){
       const res = await api.getTopList();
       if(res.code){
-        tip.toast(res.code.message);
+        tip.toast(res.data.message);
         return;
       }
       this.topList = res.data.list;
-      console.log(this.topList);
+    },
+    async getIndexList(){
+      const res = await api.getIndexList(this.page);
+      if(res.code){
+        tip.toast(res.data.message);
+        return;
+      }
+      this.page++;
+      this.postList = res.data.list;
+      console.log(res);
     }
   },
 
@@ -49,6 +61,7 @@ export default {
 
   onShow(){
     this.getTopList();
+    this.getIndexList();
   }
 }
 </script>
@@ -91,7 +104,5 @@ export default {
 }
 .post-list{
   background-color: #ffffff;
-  display: flex;
-  padding: 10px;
 }
 </style>

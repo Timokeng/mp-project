@@ -4,7 +4,7 @@ let base = 'https://www.easy-mock.com/mock/5ca72327ef77d72844bfd426/forum'
 
 const api = {
     // 主页帖子列表
-    getIndexList: (page) => request.get(`${base}/post?${page}`),
+    getIndexList: (page) => request.get(`${base}/posts?${page}`),
     // 帖子详情
     getPostDetail: (id) => request.get(`${base}/post?${id}`),
     // 置顶帖子列表
