@@ -17,6 +17,8 @@ const api = {
     minePost: () => request.get(`${base}/minePost`),
     // 我的收藏
     mineCollect: () => request.get(`${base}/mineCollect`),
+    // 评论
+    review: (data) => request.post(`${base}/review`, data),
     // 收藏
     collect: (id) => request.get(`${base}/collect?${id}`),
     // 删除
