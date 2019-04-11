@@ -3,7 +3,10 @@
     "pages/index/main",
     "pages/mine/main",
     "pages/commit/main",
-    "pages/detail/main"
+    "pages/detail/main",
+    "pages/help/main",
+    "pages/help-detail/main",
+    "pages/manage/main"
   ],
   "window": {
     "backgroundTextStyle": "light",

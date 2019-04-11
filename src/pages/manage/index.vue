@@ -1,11 +1,9 @@
 <template>
-  <div>发帖</div>
+  <div>管理</div>
 </template>
 
 <script>
-import api from '@/lib/api.js'
-import tip from '@/lib/tip.js'
-import base from '../../base.js'
+
 
 export default {
   data () {

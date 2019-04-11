@@ -30,13 +30,25 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 0,
+			"current": 2,
 			"list": [
 				{
 					"id": 0,
 					"name": "详情页",
 					"pathName": "pages/detail/main",
 					"query": "id=1"
+				},
+				{
+					"id": -1,
+					"name": "帮助中心",
+					"pathName": "pages/help/main",
+					"query": ""
+				},
+				{
+					"id": 2,
+					"name": "帮助详情",
+					"pathName": "pages/help-detail/main",
+					"query": "type=log"
 				}
 			]
 		}

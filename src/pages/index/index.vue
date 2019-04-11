@@ -51,7 +51,6 @@ export default {
       }
       this.page++;
       this.postList = res.data.list;
-      console.log(res);
     }
   },
 
