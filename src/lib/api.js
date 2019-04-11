@@ -19,8 +19,9 @@ const api = {
     mineCollect: () => request.get(`${base}/mineCollect`),
     // 评论
     review: (data) => request.post(`${base}/review`, data),
-    // 收藏
+    // 收藏/取消收藏
     collect: (id) => request.get(`${base}/collect?${id}`),
+    unCollect: (id) => request.get(`${base}/unCollect?${id}`),
     // 删除
     delete: (id) => request.get(`${base}/delete?${id}`),
     // 点赞

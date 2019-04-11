@@ -7,7 +7,41 @@
         <div class="author">{{postDetail.author}}</div>
       </div>
       <div class="message">{{postDetail.message}}</div>
-      <div class="action">操作</div>
+      <div class="imageList" v-if="postDetail.imageList && postDetail.imageList.length">
+        <img v-for="(item,index) in postDetail.imageList" :key="index" :src="item" />
+      </div>
+      <div class="action">
+        <div class="box">
+          <img src="../../../static/icon/check.png" v-if="postDetail.like" />
+          <img src="../../../static/icon/black-check.png" v-else />
+          <div class="action-title">点赞</div>
+        </div>
+        <div class="box">
+          <img src="../../../static/icon/ygz.png" v-if="postDetail.collect" />
+          <img src="../../../static/icon/wgz.png" v-else />
+          <div class="action-title">收藏</div>
+        </div>
+        <div class="box" style="border:none">
+          <img src="../../../static/icon/edit-icon.png" />
+          <div class="action-title">评论</div>
+        </div>
+      </div>
+    </div>
+    <div class="reply" v-for="(item, index) in postDetail.reply" :key="index">
+      <div class="user-info">
+        <img :src="item.userImg" />
+        <div class="author">{{item.userName}}</div>
+      </div>
+      <div class="message">{{item.message}}</div>
+      <ul class="children-reply" v-if="item.children.length">
+        <li class="child-reply" v-for="(child, ind) in item.children" :key="ind">{{child.userName}}：{{child.message}}</li>
+      </ul>
+      <div class="action">
+        <div class="box" style="border:none">
+          <img src="../../../static/icon/edit-icon.png" />
+          <div class="action-title">评论</div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -80,8 +114,8 @@ export default {
     align-items: center;
     margin-bottom: 15px;
     img{
-      width: 24px;
-      height: 24px;
+      width: 18px;
+      height: 18px;
       margin-right: 10px;
     }
   }
@@ -89,10 +123,90 @@ export default {
     font-size: 14px;
     margin-bottom: 20px;
   }
+  .imageList{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    margin-bottom: 20px;
+    img{
+      width: 100px;
+      height: 100px;
+      margin-right: 10px;
+    }
+  }
   .action{
     display: flex;
     justify-content: flex-end;
     font-size: 14px;
+    .box{
+      display: flex;
+      align-items: center;
+      padding: 0 10px;
+      border-right: 2px solid #f5f5f5;
+      img{
+        width: 16px;
+        height: 16px;
+        margin-right: 5px;
+      }
+      .action-title{
+        font-size: 14px;
+      }
+    }
+  }
+}
+.reply{
+  margin-top: 10px;
+  background-color: #ffffff;
+  padding: 10px 20px;
+  box-sizing: border-box;
+  .user-info{
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+    img{
+      width: 18px;
+      height: 18px;
+      margin-right: 10px;
+    }
+  }
+  .message{
+    font-size: 14px;
+    margin-bottom: 20px;
+  }
+  .children-reply{
+    box-sizing: border-box;
+    width: 100%;
+    padding: 0 10px;
+    border: 2px solid #f5f5f5;
+    font-size: 14px;
+    margin-bottom: 20px;
+    .child-reply{
+      padding: 5px 0;
+      border-bottom: 2px solid #f5f5f5;
+    }
+    li:last-child{
+      border: none;
+    }
+  }
+  .action{
+    display: flex;
+    justify-content: flex-end;
+    font-size: 14px;
+    .box{
+      display: flex;
+      align-items: center;
+      padding: 0 10px;
+      border-right: 2px solid #f5f5f5;
+      img{
+        width: 16px;
+        height: 16px;
+        margin-right: 5px;
+      }
+      .action-title{
+        font-size: 14px;
+      }
+    }
   }
 }
 </style>
