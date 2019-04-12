@@ -71,13 +71,13 @@ export default {
         return;
       }
       this.postDetail = res.data;
-      console.log(this.postDetail);
     }
   },
 
   onLoad(){
     const { id } = this.$mp.query;
     this.id  = id;
+    console.log(this.id);
   },
 
   onShow(){

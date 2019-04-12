@@ -7,14 +7,14 @@
       <div class="nick-name">用户名</div>
     </div>
     <ul class="item-list">
-      <li class="item">
+      <li class="item" @click="jump('manage', 'pos')">
         <div class="title">
           <img class="icon" src="../../../static/mine-icon/mine-posts.png" />
           <div class="name">我的帖子</div>
         </div>
         <img class="icon" src="../../../static/icon/right-icon.png" />
       </li>
-      <li class="item">
+      <li class="item" @click="jump('manage', 'col')">
         <div class="title">
           <img class="icon" src="../../../static/mine-icon/mine-follow.png" />
           <div class="name">我的收藏</div>
@@ -23,14 +23,14 @@
       </li>
     </ul>
     <ul class="item-list">
-      <li class="item">
+      <li class="item" @click="jump('help')">
         <div class="title">
           <img class="icon" src="../../../static/mine-icon/help.png" />
           <div class="name">帮助中心</div>
         </div>
         <img class="icon" src="../../../static/icon/right-icon.png" />
       </li>
-      <li class="item">
+      <li class="item" @click="jump('manage', 'man')">
         <div class="title">
           <img class="icon" src="../../../static/mine-icon/manger.png" />
           <div class="name">管理帖子</div>
@@ -47,6 +47,7 @@ import tip from '@/lib/tip.js'
 import base from '../../base.js'
 
 export default {
+  mixins: [base],
   data () {
     return {
       userInfo: {},

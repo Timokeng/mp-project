@@ -1,14 +1,16 @@
 <template>
   <div class="post-index">
     <div class="top-list">
-      <div class="top-post" v-for="(item, index) in topList" :key="index">
+      <div class="top-post" v-for="(item, index) in topList" :key="index" @click="jump('detail', {id: item.id})">
         <span class="icon">置顶</span>
         <span class="title">{{item.title}}</span>
       </div>
     </div>
     <div class="margin-line"></div>
     <div class="post-list">
-      <post-box v-for="(item, index) in postList" :key="index" :post="item"></post-box>
+      <div class="post" v-for="(item, index) in postList" :key="index" @click="jump('detail', {id: item.id})">
+        <post-box :post="item"></post-box>
+      </div>
     </div>
   </div>
 </template>
@@ -21,7 +23,6 @@ import postBox from '@/components/post-box.vue'
 
 export default {
   mixins: [ base ],
-
   data () {
     return {
       topList: [],
