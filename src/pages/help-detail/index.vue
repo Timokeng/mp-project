@@ -52,7 +52,7 @@ export default {
   },
 
   methods: {
-    showTiltle(){
+    showTitle(){
       let str;
       if(this.type === 'log') {str = '如何登陆'}
       if(this.type === 'com') {str = '如何发帖'}
@@ -68,7 +68,7 @@ export default {
   onShow(){
     const { type } = this.$mp.query;
     this.type  = type;
-    this.showTiltle();
+    this.showTitle();
   },
 
   created () {

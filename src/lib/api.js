@@ -14,9 +14,9 @@ const api = {
         wx_code
     }), 
     // 我的帖子
-    minePost: () => request.get(`${base}/minePost`),
+    minePost: (page) => request.get(`${base}/minePost?${page}`),
     // 我的收藏
-    mineCollect: () => request.get(`${base}/mineCollect`),
+    mineCollect: (page) => request.get(`${base}/mineCollect?${page}`),
     // 评论
     review: (data) => request.post(`${base}/review`, data),
     // 收藏/取消收藏

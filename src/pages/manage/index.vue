@@ -1,27 +1,80 @@
 <template>
-  <div>管理</div>
+  <div class="manage-page">
+    <div class="box" v-for="(item, index) in list" :key="index">
+      <post-box :post="item"></post-box>
+      <div class="actions">
+        <div class="action" v-if="type === 'pos'">修改帖子</div>
+        <div class="action" v-if="type === 'pos' || type === 'man'">删除帖子</div>
+        <div class="action" v-if="type === 'col'">取消收藏</div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
-
+import api from '@/lib/api.js'
+import tip from '@/lib/tip.js'
+import base from '../../base.js'
+import postBox from '@/components/post-box.vue'
 
 export default {
+  mixins: [base],
   data () {
     return {
-      motto: 'Hello miniprograme',
-      userInfo: {
-        nickName: 'mpvue',
-        avatarUrl: 'http://mpvue.com/assets/logo.png'
-      }
+      list: [],
+      page: 1,
+      type: ''
     }
   },
 
   components: {
-
+    postBox
   },
 
   methods: {
-    
+    showTitle(){
+      let str;
+      if(this.type === 'pos') {str = '我的帖子'}
+      if(this.type === 'col') {str = '我的收藏'}
+      if(this.type === 'man') {str = '管理帖子'}
+      wx.setNavigationBarTitle({
+        title: str
+      })
+    },
+    async getList(){
+      if(this.type === 'pos'){
+        const res = await api.minePost(this.page);
+        if(res.code){
+          tip.toast(res.data.message);
+          return;
+        }
+        this.list = res.data.list;
+      }
+      if(this.type === 'col'){
+        const res = await api.mineCollect(this.page);
+        if(res.code){
+          tip.toast(res.data.message);
+          return;
+        }
+        this.list = res.data.list;
+      }
+      if(this.type === 'man'){
+        const res = await api.getIndexList(this.page);
+        if(res.code){
+          tip.toast(res.data.message);
+          return;
+        }
+        this.list = res.data.list;
+      }
+    }
+  },
+
+  onShow(){
+    const { type } = this.$mp.query;
+    this.type  = type;
+    this.showTitle();
+    this.getList();
+
   },
 
   created () {
@@ -31,5 +84,32 @@ export default {
 </script>
 
 <style scoped lang="scss">
-
+.manage-page{
+  width: 100%;
+  min-height: 100vh;
+  background-color: #f5f5f5;
+}
+.box{
+  background-color: #ffffff;
+  width: 100%;
+  margin-top: 10px;
+  .actions{
+    display: flex;
+    justify-content: flex-end;
+    font-size: 14px;
+    padding: 5px 20px;
+    .action{
+      padding: 0 10px;
+      border-right: 2px solid #f5f5f5;
+      &:last-child{
+        padding-right: 0;
+        border: none;
+      }
+    }
+  }
+}
+.box:first-child{
+  margin: 0;
+  border-top: 1px solid #f5f5f5;
+}
 </style>
