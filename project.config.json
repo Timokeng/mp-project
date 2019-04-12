@@ -30,7 +30,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 3,
+			"current": 4,
 			"list": [
 				{
 					"id": 0,
@@ -55,6 +55,12 @@
 					"name": "管理页",
 					"pathName": "pages/manage/main",
 					"query": "type=pos"
+				},
+				{
+					"id": -1,
+					"name": "发帖",
+					"pathName": "pages/commit/main",
+					"query": ""
 				}
 			]
 		}
