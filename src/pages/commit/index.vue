@@ -19,7 +19,7 @@
             <div class="upload-image" @click="uploadImage" v-if="count !== 0">上传图片</div>
             <div class="image-box" v-for="(item,index) in post.imageList" :key="index">
                 <img :src="item" />
-                <div class="delete-img" @click="deleteImg(index)"></div>
+                <img class="delete-img" src="../../../static/icon/delete-icon.png" @click="deleteImg(index)" />
             </div>
         </div>
       </div>
@@ -52,7 +52,47 @@ export default {
   },
 
   methods: {
-    
+    deleteImg(index) {
+      this.count++;
+      this.post.imageList.splice(index, 1);
+    },
+    uploadImage(){
+      let tempFilePaths = [];
+      if(!this.count){
+          tip.toast('上传图片已经达到上限');
+          return;
+      }
+      const that = this;
+      wx.chooseImage({
+        count: this.count,
+        sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
+        sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
+        success: function (res) {
+          tempFilePaths = res.tempFilePaths;
+          that.count = that.count - tempFilePaths.length;
+          while(tempFilePaths.length){
+            wx.uploadFile({
+                url: ` https://www.easy-mock.com/mock/5ca72327ef77d72844bfd426/forum/image`,  //==== 此处还是mock数据，完整项目这里还需要修改
+                filePath: tempFilePaths[0],
+                name: 'file',
+                success: function(res){
+                  const re = JSON.parse(res.data);
+                  that.post.imageList.push(re.data.imageUrl);   
+                },
+                fail: function(res){
+                  tip.toast(res.data.message);
+                  return;
+                }
+            });
+            tempFilePaths.shift();     
+          }
+        },
+        fail: function(res) {
+          tip.toast('出现错误，请重新选择');
+          return;
+        }
+      });
+    },
   },
 
   created () {
@@ -97,40 +137,41 @@ export default {
         padding-left: 5px;
       }
       .img-box {
-          width: 100%;
-          display: flex;
-          justify-content: flex-start;
-          flex-wrap: wrap;
-          margin-bottom: 60px;
-          .image-box {
-              background-color: #333333;
-              width: 80px;
-              height: 80px;
-              margin: 10px;
-              img {
-                  width: 80px;
-                  height: 80px;
-                  background-color: #dfdfdf;
-              }
-              .delete-img {
-                  position: relative;
-                  left: 65px;
-                  top: -85px;
-                  width: 15px;
-                  height: 15px;
-                  background-color: #333333;
-              }
+        width: 100%;
+        display: flex;
+        justify-content: flex-start;
+        flex-wrap: wrap;
+        margin-bottom: 60px;
+        .image-box {
+          background-color: #333333;
+          box-sizing: border-box;
+          width: 80px;
+          height: 80px;
+          margin: 10px;
+          img {
+            width: 80px;
+            height: 80px;
+            background-color: #dfdfdf;
           }
-          .upload-image {
-              border: 1px solid #333333;
-              width: 80px;
-              height: 80px;
-              margin: 10px;
-              background-color: #dfdfdf;
-              font-size: 16px;
-              line-height: 80px;
-              text-align: center;
+          .delete-img {
+            position: relative;
+            left: 60px;
+            top: -85px;
+            width: 20px;
+            height: 20px;
+            background-color: rgb(250, 216, 104);
           }
+        }
+        .upload-image {
+          border: 1px solid #333333;
+          width: 80px;
+          height: 80px;
+          margin: 10px;
+          background-color: #dfdfdf;
+          font-size: 16px;
+          line-height: 80px;
+          text-align: center;
+        }
       }
     }
   }
