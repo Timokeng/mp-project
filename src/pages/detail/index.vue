@@ -11,17 +11,17 @@
         <img v-for="(item,index) in postDetail.imageList" :key="index" :src="item" />
       </div>
       <div class="action">
-        <div class="box">
+        <div class="box" @click="changeLike">
           <img src="../../../static/icon/check.png" v-if="postDetail.like" />
           <img src="../../../static/icon/black-check.png" v-else />
           <div class="action-title">点赞</div>
         </div>
-        <div class="box">
+        <div class="box" @click="changeCollect">
           <img src="../../../static/icon/ygz.png" v-if="postDetail.collect" />
           <img src="../../../static/icon/wgz.png" v-else />
           <div class="action-title">收藏</div>
         </div>
-        <div class="box" style="border:none">
+        <div class="box" style="border:none" @click="review(-1)">
           <img src="../../../static/icon/edit-icon.png" />
           <div class="action-title">评论</div>
         </div>
@@ -37,12 +37,13 @@
         <li class="child-reply" v-for="(child, ind) in item.children" :key="ind">{{child.userName}}：{{child.message}}</li>
       </ul>
       <div class="action">
-        <div class="box" style="border:none">
+        <div class="box" style="border:none" @click="review(index)">
           <img src="../../../static/icon/edit-icon.png" />
           <div class="action-title">评论</div>
         </div>
       </div>
     </div>
+    <review :showReview="showReview" :id="id" :pos="reviewPos" @close="closeReview"></review>
   </div>
 </template>
 
@@ -50,17 +51,20 @@
 import api from '@/lib/api.js'
 import tip from '@/lib/tip.js'
 import base from '../../base.js'
+import review from '@/components/review'
 
 export default {
   data () {
     return {
       postDetail: {},
-      id: 1
+      id: null,
+      showReview: false,
+      reviewPos: -1
     }
   },
 
   components: {
-
+    review
   },
 
   methods: {
@@ -71,13 +75,40 @@ export default {
         return;
       }
       this.postDetail = res.data;
+    },
+    
+    async changeLike(){
+      const res = await api.like(this.id);
+      tip.toast(res.data.message);
+      if(!res.code){
+        this.postDetail.like = !this.postDetail.like;
+      }
+    },
+
+    async changeCollect(){
+      const res = await api.collect(this.id);
+      tip.toast(res.data.message);
+      if(!res.code){
+        this.postDetail.collect = !this.postDetail.collect;
+      }
+    },
+
+    review(pos){
+      this.reviewPos = pos;
+      this.showReview = true;
+    },
+
+    closeReview(ref){
+      this.showReview = false;
+      if(ref){
+        this.getDetail();
+      }
     }
   },
 
   onLoad(){
     const { id } = this.$mp.query;
     this.id  = id;
-    console.log(this.id);
   },
 
   onShow(){
@@ -86,6 +117,10 @@ export default {
 
   created () {
     // let app = getApp()
+  },
+
+  onUnload(){
+    this.showReview = false;
   }
 }
 </script>
