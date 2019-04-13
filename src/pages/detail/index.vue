@@ -106,12 +106,9 @@ export default {
     }
   },
 
-  onLoad(){
+  onShow(){
     const { id } = this.$mp.query;
     this.id  = id;
-  },
-
-  onShow(){
     this.getDetail();
   },
 

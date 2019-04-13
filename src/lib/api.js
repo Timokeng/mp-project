@@ -31,7 +31,9 @@ const api = {
         page
     }),
     // 发布帖子/修改帖子（通过特定条件，例如是否有id区分发布和修改两种操作，复用同一个接口）
-    commit: (data) => request.post(`${base}/commit`, data)
+    commit: (data) => request.post(`${base}/commit`, data),
+    // 获取帖子主题信息（只获取最初发帖的简单信息，降低成本）
+    getTheme: (id) => request.get(`${base}/theme?${id}`)
     // 上传图片（微信自带的图片上传组件不单独使用接口，暂不定义）
 }
 

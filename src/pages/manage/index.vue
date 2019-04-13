@@ -1,11 +1,13 @@
 <template>
   <div class="manage-page">
     <div class="box" v-for="(item, index) in list" :key="index">
-      <post-box :post="item"></post-box>
+      <div class="post-body" @click="jump('detail', {id:item.id})">
+        <post-box :post="item"></post-box>
+      </div>
       <div class="actions">
-        <div class="action" v-if="type === 'pos'">修改帖子</div>
-        <div class="action" v-if="type === 'pos' || type === 'man'">删除帖子</div>
-        <div class="action" v-if="type === 'col'">取消收藏</div>
+        <div class="action" v-if="type === 'pos'" @click="editPost(item.id)">修改帖子</div>
+        <div class="action" v-if="type === 'pos' || type === 'man'" @click="deletePost(item.id, index)">删除帖子</div>
+        <div class="action" v-if="type === 'col'" @click="unCollect(item.id, index)">取消收藏</div>
       </div>
     </div>
   </div>
@@ -41,6 +43,7 @@ export default {
         title: str
       })
     },
+
     async getList(){
       if(this.type === 'pos'){
         const res = await api.minePost(this.page);
@@ -66,10 +69,34 @@ export default {
         }
         this.list = res.data.list;
       }
+    },
+
+    editPost(id){
+      wx.setStorageSync('editId', id);
+      const url = `/pages/commit/main`;
+      wx.switchTab({
+        url: url
+      })
+    },
+
+    async deletePost(id ,index){
+      const res = await api.delete(id);
+      tip.toast(res.data.message);
+      if(!res.code){
+        this.list.splice(index, 1);
+      }
+    },
+    
+    async unCollect(id, index){
+      const res = await api.collect(id);
+      tip.toast(res.data.message);
+      if(!res.code){
+        this.list.splice(index, 1);
+      }
     }
   },
 
-  onShow(){
+  onLoad(){
     const { type } = this.$mp.query;
     this.type  = type;
     this.showTitle();

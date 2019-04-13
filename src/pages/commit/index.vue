@@ -25,7 +25,7 @@
       </div>
     </div>
     <div class="commit-button" @click="commitPost">
-      <div class="title">发帖</div>
+      <div class="title">{{id?'修改帖子':'发布帖子'}}</div>
     </div>
   </div>
 </template>
@@ -40,6 +40,7 @@ export default {
 
   data () {
     return {
+      id: null,
       post: {
         title: '',
         message: '',
@@ -54,6 +55,18 @@ export default {
   },
 
   methods: {
+    async getThemeInfo(){
+      const res = await api.getTheme(this.id);
+      if(res.code){
+        tip.toast(res.data.message);
+        wx.switchTab({
+          url: '/pages/mine/main'
+        })
+      }
+      this.post = res.data;
+      this.count -= this.post.imageList.length;
+    },
+
     deleteImg(index) {
       this.count++;
       this.post.imageList.splice(index, 1);
@@ -114,9 +127,13 @@ export default {
       if(!validata){
         return;
       }
-      console.log(this.post)
+      const data = {
+        post: this.post,
+        id: this.id
+      }
+      console.log(data);
       tip.loading();
-      const res = await api.commit(this.post);
+      const res = await api.commit(data);
       tip.loaded();
       tip.toast(res.data.message);
       if(res.code){
@@ -131,11 +148,24 @@ export default {
     }
   },
 
+  onShow(){
+    const id = wx.getStorageSync('editId');
+    wx.removeStorageSync('editId');
+    this.id  = id;
+    if(this.id){
+      wx.setNavigationBarTitle({
+        title: '修改帖子'
+      });
+      this.getThemeInfo(); 
+    }
+  },
+
   created () {
     // let app = getApp()
   },
 
-  onUnload(){
+  onHide(){
+    this.id = null;
     this.post = {
       title: '',
       message: '',
