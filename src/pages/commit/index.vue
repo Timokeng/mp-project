@@ -3,13 +3,13 @@
     <div class="item-list">
       <div class="item">
         <div class="title">标题</div>
-        <input class="inp" v-model="post.title" />
+        <input class="inp" v-model="post.title" maxlength="30" />
       </div>
       <div class="item">
         <div class="title">正文</div>
         <textarea class="inp"
          v-model="post.message" 
-         maxlength="-1" 
+         maxlength="1000" 
          show-confirm-bar="false" 
         />
       </div>
@@ -24,7 +24,7 @@
         </div>
       </div>
     </div>
-    <div class="commit-button">
+    <div class="commit-button" @click="commitPost">
       <div class="title">发帖</div>
     </div>
   </div>
@@ -36,6 +36,8 @@ import tip from '@/lib/tip.js'
 import base from '../../base.js'
 
 export default {
+  mixins: [base],
+
   data () {
     return {
       post: {
@@ -56,6 +58,7 @@ export default {
       this.count++;
       this.post.imageList.splice(index, 1);
     },
+
     uploadImage(){
       let tempFilePaths = [];
       if(!this.count){
@@ -93,10 +96,52 @@ export default {
         }
       });
     },
+
+    validata(){
+      if(this.post.title === '' || this.post.title.length > 30){
+        tip.toast("标题不能为空，且不能超过30字");
+        return false;
+      }
+      if(this.post.message === '' || this.post.message.length > 5000){
+        tip.toast("正文不能为空，且不超过5000字");
+        return false;
+      }
+      return true;
+    },
+
+    async commitPost(){
+      const validata = this.validata();
+      if(!validata){
+        return;
+      }
+      console.log(this.post)
+      tip.loading();
+      const res = await api.commit(this.post);
+      tip.loaded();
+      tip.toast(res.data.message);
+      if(res.code){
+        return;
+      } else{
+        setTimeout(()=>{
+          wx.switchTab({
+            url: '/pages/index/main'
+          })
+        }, 2000)
+      }
+    }
   },
 
   created () {
     // let app = getApp()
+  },
+
+  onUnload(){
+    this.post = {
+      title: '',
+      message: '',
+      imageList: []
+    };
+    this.count = 9;
   }
 }
 </script>
