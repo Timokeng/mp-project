@@ -3,7 +3,7 @@
         <div class="auth-mask"></div>
         <div class="auth-container">
             <div class="auth-logo">
-                <img src="" alt="">
+                <img src="../../static/mp-logo.jpg" alt="">
             </div>
             <p>托马斯论坛需要获取您的头像、名称</p>
              <button class="auth-btn" open-type="getUserInfo" @getuserinfo="onGetUserInfo">允许</button>

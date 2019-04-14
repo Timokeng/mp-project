@@ -13,6 +13,8 @@ const api = {
     getToken: (wx_code) => request.post(`${base}/token`, {
         wx_code
     }), 
+    // 创建用户信息
+    createAccount: (data) => request.post(`${base}/createAccount`, data),
     // 我的帖子
     minePost: (page) => request.get(`${base}/minePost?page=${page}`),
     // 我的收藏

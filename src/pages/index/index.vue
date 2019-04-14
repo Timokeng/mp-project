@@ -12,6 +12,7 @@
         <post-box :post="item"></post-box>
       </div>
     </div>
+    <auth-modal :show="showAuthModal" @ok="onGetUserInfo" ref="auth"></auth-modal>
   </div>
 </template>
 
@@ -20,6 +21,7 @@ import api from '@/lib/api.js'
 import tip from '@/lib/tip.js'
 import base from '../../base.js'
 import postBox from '@/components/post-box.vue'
+import authModal from '@/components/auth-modal.vue'
 
 export default {
   mixins: [ base ],
@@ -27,12 +29,14 @@ export default {
     return {
       topList: [],
       postList: [],
-      page: 1
+      page: 1,
+      showAuthModal: false
     }
   },
 
   components: {
-    postBox
+    postBox,
+    authModal
   },
 
   methods: {
@@ -71,6 +75,17 @@ export default {
     // let app = getApp()
   },
 
+  async onShow(){
+    await this.login()
+    const userInfo = wx.getStorageSync('user-info')
+    if(!(userInfo && userInfo.nickName)){
+      this.showAuthModal = true;
+      return;
+    } else {
+      this.showAuthModal = false;
+    }
+  },
+
   onLoad(){
     this.getTopList();
     this.getIndexList(true);
@@ -86,7 +101,15 @@ export default {
     this.getTopList();
     this.getIndexList(true);
     wx.stopPullDownRefresh();
-  }
+  },
+
+  onShareAppMessage: function (res) {
+    return {
+      title: '托马斯论坛',
+      path: `pages/index/main`,
+      imageUrl:'../../static/mp-logo.jpg'
+    }
+  },
 }
 </script>
 

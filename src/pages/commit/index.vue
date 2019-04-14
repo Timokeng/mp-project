@@ -27,6 +27,7 @@
     <div class="commit-button" @click="commitPost">
       <div class="title">{{id?'修改帖子':'发布帖子'}}</div>
     </div>
+    <auth-modal :show="showAuthModal" @ok="onGetUserInfo" ref="auth"></auth-modal>
   </div>
 </template>
 
@@ -34,6 +35,7 @@
 import api from '@/lib/api.js'
 import tip from '@/lib/tip.js'
 import base from '../../base.js'
+import authModal from '@/components/auth-modal.vue'
 
 export default {
   mixins: [base],
@@ -46,12 +48,13 @@ export default {
         message: '',
         imageList: []
       },
-      count: 9
+      count: 9,
+      showAuthModal: false
     }
   },
 
   components: {
-
+    authModal
   },
 
   methods: {
@@ -148,7 +151,17 @@ export default {
     }
   },
 
-  onShow(){
+  async onShow(){
+    await this.login()
+    const userInfo = wx.getStorageSync('user-info')
+    if(!(userInfo && userInfo.nickName)){
+      this.showAuthModal = true;
+      return;
+    } else {
+      this.showAuthModal = false;
+    }
+
+    // 判断操作类型
     const id = wx.getStorageSync('editId');
     wx.removeStorageSync('editId');
     this.id  = id;

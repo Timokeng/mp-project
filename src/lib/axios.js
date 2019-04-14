@@ -8,12 +8,8 @@ const axiosIns = axios.create({
 
 axiosIns.interceptors.request.use(config => {
   const token = wx.getStorageSync('token')
-  const formId = wx.getStorageSync('formId')
   if(token){
     config.headers.common.Authorization = token
-  }
-  if(formId){
-    config.headers.common['wx-form-id'] = formId;
   }
   return config;
 });

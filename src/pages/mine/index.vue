@@ -2,9 +2,9 @@
   <div class="mine-page">
     <div class="header">
       <div class="avatar">
-        <!-- 还没做登录部分，这里可能会报错先注释掉 <img :src="userInfo.img" alt="" /> -->
+        <img :src="userInfo.avatarUrl" alt="" />
       </div>
-      <div class="nick-name">用户名</div>
+      <div class="nick-name">{{userInfo.nickName}}</div>
     </div>
     <ul class="item-list">
       <li class="item" @click="jump('manage', 'pos')">
@@ -38,6 +38,7 @@
         <img class="icon" src="../../../static/icon/right-icon.png" />
       </li>
     </ul>
+    <auth-modal :show="showAuthModal" @ok="onGetUserInfo" ref="auth"></auth-modal>
   </div>
 </template>
 
@@ -45,17 +46,19 @@
 import api from '@/lib/api.js'
 import tip from '@/lib/tip.js'
 import base from '../../base.js'
+import authModal from '@/components/auth-modal.vue'
 
 export default {
   mixins: [base],
   data () {
     return {
       userInfo: {},
+      showAuthModal: false
     }
   },
 
   components: {
-
+    authModal
   },
 
   methods: {
@@ -64,6 +67,18 @@ export default {
 
   created () {
     // let app = getApp()
+  },
+
+  async onShow(){
+    const userInfo = wx.getStorageSync('user-info');
+    this.userInfo = userInfo;
+    await this.login()
+    if(!(userInfo && userInfo.nickName)){
+      this.showAuthModal = true;
+      return;
+    } else {
+      this.showAuthModal = false;
+    }
   }
 }
 </script>

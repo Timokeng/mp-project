@@ -33,13 +33,10 @@ export default {
         },
         async onGetUserInfo(data){
             const raw = JSON.parse(data.rawData)
-            raw.nickname = raw.nickName
-            raw.avatar = raw.avatarUrl
             const res = await api.createAccount(raw);            
             if(!res.code){
-              this.authModalShow = false
+              this.showAuthModal = false
               wx.setStorageSync('user-info',raw)
-              this.userInfo = raw
             }else {
                 tip.toast(res.message)
             }
