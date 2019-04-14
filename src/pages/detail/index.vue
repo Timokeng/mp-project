@@ -58,6 +58,7 @@ export default {
     return {
       postDetail: {},
       id: null,
+      page: 1,
       showReview: false,
       reviewPos: -1
     }
@@ -69,12 +70,23 @@ export default {
 
   methods: {
     async getDetail(){
-      const res = await api.getPostDetail(this.id);
+      const res = await api.getPostDetail(this.id ,this.page);
       if(res.code){
         tip.toast(res.data.message);
         return;
       }
       this.postDetail = res.data;
+      this.page++;
+    },
+
+    async getMoreReply(){
+      const res = await api.getPostDetail(this.id ,this.page);
+      if(res.code){
+        tip,toast(res.data.message);
+        return;
+      }
+      this.postDetail.reply = this.postDetail.reply.concat(res.data.reply);
+      this.page++;
     },
     
     async changeLike(){
@@ -116,8 +128,20 @@ export default {
     // let app = getApp()
   },
 
-  onUnload(){
+  onHide(){
     this.showReview = false;
+    this.page = 1;
+  },
+
+  onReachBottom () {
+    tip.loading();
+    this.getMoreReply();
+    tip.loaded();
+  },
+  onPullDownRefresh(){
+    this.page = 1;
+    this.getDetail();
+    wx.stopPullDownRefresh();
   }
 }
 </script>

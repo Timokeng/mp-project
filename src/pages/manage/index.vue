@@ -25,7 +25,7 @@ export default {
     return {
       list: [],
       page: 1,
-      type: ''
+      type: '',
     }
   },
 
@@ -44,30 +44,66 @@ export default {
       })
     },
 
-    async getList(){
+    async getList(ref){
       if(this.type === 'pos'){
-        const res = await api.minePost(this.page);
-        if(res.code){
-          tip.toast(res.data.message);
-          return;
+        if(ref){
+          this.page = 1;
+          const res = await api.minePost(this.page);
+          if(res.code){
+            tip.toast(res.data.message);
+            return;
+          }
+          this.list = res.data.list;
+          this.page++;
+        } else{
+          const res = await api.minePost(this.page);
+          if(res.code){
+            tip.toast(res.data.message);
+            return;
+          }
+          this.list = this.list.concat(res.data.list);
+          this.page++;
         }
-        this.list = res.data.list;
       }
       if(this.type === 'col'){
-        const res = await api.mineCollect(this.page);
-        if(res.code){
-          tip.toast(res.data.message);
-          return;
+        if(ref){
+          this.page = 1;
+          const res = await api.mineCollect(this.page);
+          if(res.code){
+            tip.toast(res.data.message);
+            return;
+          }
+          this.list = res.data.list;
+          this.page++;
+        } else{
+          const res = await api.mineCollect(this.page);
+          if(res.code){
+            tip.toast(res.data.message);
+            return;
+          }
+          this.list = this.list.concat(res.data.list);
+          this.page++;
         }
-        this.list = res.data.list;
       }
       if(this.type === 'man'){
-        const res = await api.getIndexList(this.page);
-        if(res.code){
-          tip.toast(res.data.message);
-          return;
+        if(ref){
+          this.page = 1;
+          const res = await api.getIndexList(this.page);
+          if(res.code){
+            tip.toast(res.data.message);
+            return;
+          }
+          this.list = res.data.list;
+          this.page++;
+        } else{
+          const res = await api.getIndexList(this.page);
+          if(res.code){
+            tip.toast(res.data.message);
+            return;
+          }
+          this.list = this.list.concat(res.data.list);
+          this.page++;
         }
-        this.list = res.data.list;
       }
     },
 
@@ -100,12 +136,22 @@ export default {
     const { type } = this.$mp.query;
     this.type  = type;
     this.showTitle();
-    this.getList();
-
+    this.getList(true);
   },
 
   created () {
     // let app = getApp()
+  },
+
+  onReachBottom () {
+    tip.loading();
+    this.getList(false)
+    tip.loaded();
+  },
+
+  onPullDownRefresh(){
+    this.getList(true);
+    wx.stopPullDownRefresh();
   }
 }
 </script>

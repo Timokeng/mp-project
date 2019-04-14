@@ -44,14 +44,26 @@ export default {
       }
       this.topList = res.data.list;
     },
-    async getIndexList(){
-      const res = await api.getIndexList(this.page);
-      if(res.code){
-        tip.toast(res.data.message);
-        return;
+
+    async getIndexList(ref){
+      if(ref){
+        this.page = 1;
+        const res = await api.getIndexList(this.page);
+        if(res.code){
+          tip.toast(res.data.message);
+          return;
+        }
+        this.postList = res.data.list;
+        this.page++;
+      } else{
+        const res = await api.getIndexList(this.page);
+        if(res.code){
+          tip.toast(res.data.message);
+          return;
+        }
+        this.postList = this.postList.concat(res.data.list);
+        this.page++;
       }
-      this.page++;
-      this.postList = res.data.list;
     }
   },
 
@@ -59,9 +71,21 @@ export default {
     // let app = getApp()
   },
 
-  onShow(){
+  onLoad(){
     this.getTopList();
-    this.getIndexList();
+    this.getIndexList(true);
+  },
+
+  onReachBottom () {
+    tip.loading();
+    this.getIndexList(false);
+    tip.loaded();
+  },
+
+  onPullDownRefresh(){
+    this.getTopList();
+    this.getIndexList(true);
+    wx.stopPullDownRefresh();
   }
 }
 </script>
