@@ -79,3 +79,10 @@ For detailed explanation on how things work, checkout the [guide](http://vuejs-t
 搜索功能（主要后端工作，并且我暂时没找到好的图标，暂时不管吧）
 
 截止今天 2019-4-14 项目的前端部分已经基本全部完成，剩下的就是服务端和挂服务器的工作了，加油呀！
+```
+
+## Fix Plan
+``` bash
+1、忘了写的置顶和取消置顶操作按钮和逻辑
+
+```
