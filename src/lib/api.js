@@ -27,6 +27,8 @@ const api = {
     delete: (id) => request.get(`${base}/delete?id=${id}`),
     // 点赞
     like: (id) => request.get(`${base}/like?id=${id}`),
+    // 置顶/取消置顶 top=0置顶 top=1取消置顶
+    top: (id, top) => request.get(`${base}/top?id=${id}&top=${top}`),
     // 搜索
     search: (str, page) => request.post(`${base}/search`, {
         str,
