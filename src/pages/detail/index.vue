@@ -37,7 +37,7 @@
         <li class="child-reply" v-for="(child, ind) in item.children" :key="ind">{{child.userName}}：{{child.message}}</li>
       </ul>
       <div class="action">
-        <div class="box" style="border:none" @click="review(index)">
+        <div class="box" style="border:none" @click="review(item.id)">
           <img src="../../../static/icon/edit-icon.png" />
           <div class="action-title">评论</div>
         </div>
