@@ -12,7 +12,7 @@
         <post-box :post="item"></post-box>
       </div>
     </div>
-    <auth-modal :show="showAuthModal" @ok="onGetUserInfo" ref="auth"></auth-modal>
+    <auth-modal :show="showAuthModal" @ok="onGetUserInfoThisPage" ref="auth"></auth-modal>
   </div>
 </template>
 
@@ -67,6 +67,15 @@ export default {
         }
         this.postList = this.postList.concat(res.data.list);
         this.page++;
+      }
+    },
+
+    async onGetUserInfoThisPage(data){
+      console.log(data)
+      await this.onGetUserInfo(data);
+      if(!this.showAuthModal){
+        this.getTopList();
+        this.getIndexList(true);
       }
     }
   },
