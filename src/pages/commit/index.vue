@@ -151,7 +151,7 @@ export default {
     }
   },
 
-  async onShow(){
+  async onLoad(){
     await this.login()
     const userInfo = wx.getStorageSync('user-info')
     if(!(userInfo && userInfo.nickName)){

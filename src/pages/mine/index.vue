@@ -69,7 +69,7 @@ export default {
     // let app = getApp()
   },
 
-  async onShow(){
+  async onLoad(){
     const userInfo = wx.getStorageSync('user-info');
     this.userInfo = userInfo;
     await this.login()

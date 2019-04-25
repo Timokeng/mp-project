@@ -75,7 +75,7 @@ export default {
     // let app = getApp()
   },
 
-  async onShow(){
+  async onLoad(){
     await this.login()
     const userInfo = wx.getStorageSync('user-info')
     if(!(userInfo && userInfo.nickName)){
@@ -84,9 +84,6 @@ export default {
     } else {
       this.showAuthModal = false;
     }
-  },
-
-  onLoad(){
     this.getTopList();
     this.getIndexList(true);
   },
