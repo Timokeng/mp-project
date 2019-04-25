@@ -26,7 +26,7 @@ export default {
                     tip.toast(res.message)
                     rej()
                 } else {
-                    wx.setStorageSync('token',res.token)
+                    wx.setStorageSync('token',res.data.token)
                     resolve()
                 }
             })

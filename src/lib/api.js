@@ -1,6 +1,7 @@
 import request from './axios'
 
-let base = 'https://www.easy-mock.com/mock/5ca72327ef77d72844bfd426/forum'
+//let base = 'https://www.easy-mock.com/mock/5ca72327ef77d72844bfd426/forum'
+let base = 'http://localhost:3000'
 
 const api = {
     // 主页帖子列表

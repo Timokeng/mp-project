@@ -128,7 +128,7 @@ export default {
     // let app = getApp()
   },
 
-  onHide(){
+  onUnload(){
     this.showReview = false;
     this.page = 1;
   },
