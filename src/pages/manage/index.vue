@@ -5,6 +5,7 @@
         <post-box :post="item"></post-box>
       </div>
       <div class="actions">
+        <div class="action" v-if="type === 'man'" @click="topPost(item)">{{item.top?'取消置顶':'置顶帖子'}}</div>
         <div class="action" v-if="type === 'pos'" @click="editPost(item.id)">修改帖子</div>
         <div class="action" v-if="type === 'pos' || type === 'man'" @click="deletePost(item.id, index)">删除帖子</div>
         <div class="action" v-if="type === 'col'" @click="unCollect(item.id, index)">取消收藏</div>
@@ -129,6 +130,15 @@ export default {
       if(!res.code){
         this.list.splice(index, 1);
       }
+    },
+
+    async topPost(item){
+      const top = item.top ? 1:0;
+      const res = await api.top(item.id, top);
+      tip.toast(res.data.message);
+      if(!res.code){
+        item.top = !item.top;
+      }
     }
   },
 
@@ -137,6 +147,10 @@ export default {
     this.type  = type;
     this.showTitle();
     this.getList(true);
+  },
+
+  onUnload(){
+    this.list = [];
   },
 
   created () {

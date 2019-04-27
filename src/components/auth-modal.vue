@@ -21,7 +21,6 @@ export default {
         },
         onGetUserInfo(e){
             if(e.mp.detail.errMsg == 'getUserInfo:ok'){
-                console.log('data',e.mp.detail);
                 this.$emit('ok',e.mp.detail)
             }
         }
