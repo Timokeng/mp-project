@@ -30,7 +30,7 @@
         </div>
         <img class="icon" src="../../../static/icon/right-icon.png" />
       </li>
-      <li class="item" @click="jump('manage', 'man')">
+      <li class="item" @click="jump('manage', 'man')" v-if="userInfo.level === 0">
         <div class="title">
           <img class="icon" src="../../../static/mine-icon/manger.png" />
           <div class="name">管理帖子</div>
@@ -72,6 +72,7 @@ export default {
   async onLoad(){
     const userInfo = wx.getStorageSync('user-info');
     this.userInfo = userInfo;
+    console.log(userInfo);
     await this.login()
     if(!(userInfo && userInfo.nickName)){
       this.showAuthModal = true;

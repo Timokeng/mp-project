@@ -71,7 +71,6 @@ export default {
     },
 
     async onGetUserInfoThisPage(data){
-      console.log(data)
       await this.onGetUserInfo(data);
       if(!this.showAuthModal){
         this.getTopList();
