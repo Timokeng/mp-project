@@ -90,10 +90,12 @@ export default {
         success: function (res) {
           tempFilePaths = res.tempFilePaths;
           that.count = that.count - tempFilePaths.length;
+          let token = wx.getStorageSync('token');
           while(tempFilePaths.length){
             wx.uploadFile({
-                url: ` https://www.easy-mock.com/mock/5ca72327ef77d72844bfd426/forum/image`,  //==== 此处还是mock数据，完整项目这里还需要修改
+                url: `http://localhost:3000/image`,  //==== 此处还是mock数据，完整项目这里还需要修改
                 filePath: tempFilePaths[0],
+                header: {'Authorization': token},
                 name: 'file',
                 success: function(res){
                   const re = JSON.parse(res.data);
@@ -250,7 +252,7 @@ export default {
             top: -85px;
             width: 20px;
             height: 20px;
-            background-color: rgb(250, 216, 104);
+            background-color: #ffffff;
           }
         }
         .upload-image {
