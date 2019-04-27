@@ -83,8 +83,8 @@ For detailed explanation on how things work, checkout the [guide](http://vuejs-t
 
 ## Fix Plan
 ``` bash
-1、忘了写的置顶和取消置顶操作按钮和逻辑
+1、忘了写的置顶和取消置顶操作按钮和逻辑（已完成）
 
-2、lastModified字段在显示前要做处理
+2、lastModified字段在显示前要做处理（已完成）
 
 ```
