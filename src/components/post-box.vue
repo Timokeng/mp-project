@@ -7,7 +7,7 @@
             </div>
             <div class="user">{{post.userName}}</div>
         </div>
-        <div class="time">最新回复：{{post.lastModified}}</div>
+        <div class="time">最新回复：{{time}}</div>
     </div>
 </template>
 
@@ -17,6 +17,12 @@ export default {
     props: ['post'],
     methods: {
         
+    },
+    computed: {
+        time(){
+            var d = new Date(this.post.lastModified);
+            return `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()} ${d.getHours()}:${d.getMinutes()}:${d.getSeconds()}`
+        }
     }
 }
 </script>

@@ -72,7 +72,6 @@ export default {
   async onLoad(){
     const userInfo = wx.getStorageSync('user-info');
     this.userInfo = userInfo;
-    console.log(userInfo);
     await this.login()
     if(!(userInfo && userInfo.nickName)){
       this.showAuthModal = true;

@@ -66,6 +66,7 @@ export default {
           url: '/pages/mine/main'
         })
       }
+      console.log(res);
       this.post = res.data;
       this.count -= this.post.imageList.length;
     },
@@ -151,16 +152,7 @@ export default {
     }
   },
 
-  async onLoad(){
-    await this.login()
-    const userInfo = wx.getStorageSync('user-info')
-    if(!(userInfo && userInfo.nickName)){
-      this.showAuthModal = true;
-      return;
-    } else {
-      this.showAuthModal = false;
-    }
-
+  onShow(){
     // 判断操作类型
     const id = wx.getStorageSync('editId');
     wx.removeStorageSync('editId');
@@ -170,6 +162,17 @@ export default {
         title: '修改帖子'
       });
       this.getThemeInfo(); 
+    }
+  },
+
+  async onLoad(){
+    await this.login()
+    const userInfo = wx.getStorageSync('user-info')
+    if(!(userInfo && userInfo.nickName)){
+      this.showAuthModal = true;
+      return;
+    } else {
+      this.showAuthModal = false;
     }
   },
 
