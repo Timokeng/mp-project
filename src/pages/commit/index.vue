@@ -101,9 +101,12 @@ export default {
                 name: 'file',
                 success: function(res){
                   const re = JSON.parse(res.data);
-                  that.post.imageList.push(re.data.imageUrl);   
+                  if(!re.code){
+                    that.post.imageList.push(re.data.imageUrl);
+                  }  
                 },
                 fail: function(res){
+                  that.count++;
                   tip.toast(res.data.message);
                   return;
                 }
@@ -160,7 +163,10 @@ export default {
     // 判断操作类型
     const id = wx.getStorageSync('editId');
     wx.removeStorageSync('editId');
-    this.id  = id;
+    if(id){
+      this.id  = id;
+    }
+    console.log(this.id);
     if(this.id){
       wx.setNavigationBarTitle({
         title: '修改帖子'
@@ -186,7 +192,7 @@ export default {
 
   onHide(){
     if(this.refresh){
-      this.id = null;
+        this.id = null;
         this.post = {
           title: '',
           message: '',
