@@ -49,7 +49,8 @@ export default {
         imageList: []
       },
       count: 9,
-      showAuthModal: false
+      showAuthModal: false,
+      refresh: true
     }
   },
 
@@ -82,6 +83,7 @@ export default {
           tip.toast('上传图片已经达到上限');
           return;
       }
+      this.refresh = false;
       const that = this;
       wx.chooseImage({
         count: this.count,
@@ -183,13 +185,17 @@ export default {
   },
 
   onHide(){
-    this.id = null;
-    this.post = {
-      title: '',
-      message: '',
-      imageList: []
-    };
-    this.count = 9;
+    if(this.refresh){
+      this.id = null;
+        this.post = {
+          title: '',
+          message: '',
+          imageList: []
+        };
+        this.count = 9;
+    } else{
+      this.refresh = true;
+    }
   }
 }
 </script>
